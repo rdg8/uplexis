@@ -40,4 +40,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function carro()
+    {
+        return $this->tomany(Carro::class);
+    }
+
 }
