@@ -17,6 +17,7 @@ class CreateCarrosTable extends Migration
             $table->id();
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('nome_veiculo');
+            $table->string('img');
             $table->string('link')->unique();
             $table->year('ano');
             $table->string('combustivel');

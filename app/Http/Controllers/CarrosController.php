@@ -55,11 +55,16 @@ class CarrosController extends Controller
 
         // percorrer lista de carros
                 foreach ($carros as $carro) {
+
         // filtro modelo e link
                     $regexModelo = '/<h2 class=\"card__title ui-title-inner\"><a href=\"(.*?)\">(.*?)<\/a><\/h2>/s';
 
                     $carroFiltro = $carro[0];
                     preg_match_all($regexModelo, $carroFiltro, $modelo, PREG_SET_ORDER);
+
+        // filtro img
+                    $regexImg = '/<img width=\"827\" height=\"593\" src=\"(.*?)\" class=\"img-responsive wp-post-image\"/s';
+                    preg_match_all($regexImg, $carroFiltro, $imgResult, PREG_SET_ORDER);
 
         // filtro preco
                     /*
@@ -74,6 +79,7 @@ class CarrosController extends Controller
                     preg_match_all($regexDetalhes, $carroFiltro, $detalhes);
 
                     $nomeVeiculo = $modelo[0][2];
+                    $img = $imgResult[0][1];
                     $link = trim(preg_replace('/\s+/', ' ', $modelo[0][1]));
                     $ano = trim(preg_replace('/\s+/', ' ', $detalhes[1][0]));
                     $quilometragem = trim(preg_replace('/\s+/', '', $detalhes[1][1]));
@@ -85,6 +91,7 @@ class CarrosController extends Controller
 
                     Carro::create([
                         'link' => $link,
+                        'img' => $img,
                         'id_usuario' => Auth::user()->id,
                         'nome_veiculo' => $nomeVeiculo,
                         'ano' => $ano,

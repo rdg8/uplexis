@@ -10,6 +10,7 @@
                 @foreach ($carros as $carro)
                     <div class="col-lg-6 col-md-12">
                         <div class="card mb-md-5">
+                            <img src="{{ $carro['img'] }}" alt="{{ $carro['nome_veiculo'] }}" title="{{ $carro['nome_veiculo'] }}" class="img-fluid mx-auto d-block">
                             <section class="card-body">
                                 <h2>{{ $carro['nome_veiculo'] }}</h2>
                                 <p>Combustíve: {{ $carro['combustivel'] }}</p>
@@ -99,11 +100,7 @@ $(".deleteCarro").on('click', function(e) {
         }
     })
 
-
-
 });
-
-
 
 </script>
 @endsection

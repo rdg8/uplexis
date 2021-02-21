@@ -38,6 +38,14 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
+                        @if ( Auth::user() )
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('capturar') }}">Capturar</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('carros.index') }}">Carros</a>
+                            </li>
+                        @endif
                         <!-- Authentication Links -->
                         @guest
                             @if (Route::has('login'))

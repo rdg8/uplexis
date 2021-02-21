@@ -16,6 +16,7 @@ class Carro extends Model
     protected $fillable = [
         'link',
         'nome_veiculo',
+        'img',
         'ano',
         'quilometragem',
         'combustivel',

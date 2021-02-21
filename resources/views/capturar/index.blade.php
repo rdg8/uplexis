@@ -9,7 +9,7 @@
                 <form>
                     @csrf
                     <div class="input-group">
-                        <input class="form-control" type="text" name="termo" id="termo" placeholder="audi">
+                        <input class="form-control" type="text" name="termo" id="termo" placeholder="Modelo do carro">
                         <div class="input-group-append">
                             <button class="btn btn-primary" id="capturar">Capturar</button>
                         </div>
