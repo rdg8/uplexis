@@ -15,22 +15,10 @@ class CapturarController extends Controller
      */
     public function index()
     {
-
-        return "oi";
-
-        //return view('capturar.index');
+        return view('capturar.index');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+
 
 
 }

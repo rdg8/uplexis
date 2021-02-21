@@ -15,17 +15,15 @@ use App\Http\Controllers\CarrosController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Auth::routes();
 
 Route::get('capturar', [CapturarController::class, 'index']);
-Route::post('capturar', [CapturarController::class, 'store']);
 
+Route::get('/', [CarrosController::class, 'index'])->name('home');
 
-Route::get('carros', [CarrosController::class, 'index']);
-Route::delete('carros/{id}', [CarrosController::class, 'destroy']);
-
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Auth::routes();
+Route::get('carros', [CarrosController::class, 'index'])->name('carros.index');;
+Route::post('carros', [CarrosController::class, 'store'])->name('carros.store');
+Route::delete('carros/{id}', [CarrosController::class, 'destroy'])->name('carros.destroy');
 
 Route::middleware(['auth'])->group(function () {
 

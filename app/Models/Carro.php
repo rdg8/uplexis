@@ -8,9 +8,25 @@ use Illuminate\Database\Eloquent\Model;
 class Carro extends Model
 {
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'link',
+        'nome_veiculo',
+        'ano',
+        'quilometragem',
+        'combustivel',
+        'cambio',
+        'portas',
+        'cor'
+    ];
+
     public function user()
     {
-        return $this->belongsTo(User::class);
+       return $this->hasOne(User::class);
     }
 
     // use HasFactory;

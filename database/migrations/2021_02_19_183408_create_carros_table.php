@@ -15,9 +15,9 @@ class CreateCarrosTable extends Migration
     {
         Schema::create('carros', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_usuario')->constrained('users');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->string('nome_veiculo');
-            $table->string('link');
+            $table->string('link')->unique();
             $table->year('ano');
             $table->string('combustivel');
             $table->integer('portas');
