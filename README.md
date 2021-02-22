@@ -34,7 +34,7 @@ DB_DATABASE=uplexis
 instalando dependencias do composer
 
 ```bash
-    $ php composer install
+    $ composer install
 ```
 
 instalando dependencias do npm
