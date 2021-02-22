@@ -8,7 +8,7 @@
 
                 @csrf
                 @foreach ($carros as $carro)
-                    <div class="col-lg-6 col-md-12">
+                    <div class="col-lg-6 col-md-12" id="c{{ $carro['id'] }}">
                         <div class="card mb-md-5">
                             <img src="{{ $carro['img'] }}" alt="{{ $carro['nome_veiculo'] }}" title="{{ $carro['nome_veiculo'] }}" class="img-fluid mx-auto d-block">
                             <section class="card-body">
@@ -37,7 +37,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
-    var cancelarDelete = true;
 
 $(".deleteCarro").on('click', function(e) {
     e.preventDefault();
@@ -69,12 +68,13 @@ $(".deleteCarro").on('click', function(e) {
             data: { _token: token },
             success: function(data) {
                 if (data.error) {
-                        Swal.fire({
+                    Swal.fire({
                         icon: 'error',
                         title: 'Algo deu erro!',
                         text: data.error
                     })
                 }
+                $(`#c${data.id}`).hide();
             },
             error: function(data) {
                 Swal.fire({

@@ -6,15 +6,15 @@
     <div class="row justify-content-center">
         <div class="col-md-6">
 
-                <form>
-                    @csrf
-                    <div class="input-group">
-                        <input class="form-control" type="text" name="termo" id="termo" placeholder="Modelo do carro">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" id="capturar">Capturar</button>
-                        </div>
+            <form>
+                @csrf
+                <div class="input-group">
+                    <input class="form-control" type="text" name="termo" id="termo" placeholder="Modelo do carro" required>
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" id="capturar">Capturar</button>
                     </div>
-                </form>
+                </div>
+            </form>
 
         </div>
     </div>
@@ -34,21 +34,29 @@
         let _token = $("input[name='_token']").val();
         let termo = document.getElementById('termo').value
 
-        $.ajax({
-            url: "{{ route('carros.store') }}",
-            type:'POST',
-            data: {_token:_token, termo:termo},
-            success: function(data) {
-                printMsg(data);
-            },
-            error: function(data) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Algo deu erro!',
-                    text: data.error
-                })
-            }
-        });
+        if (termo) {
+            $.ajax({
+                url: "{{ route('carros.store') }}",
+                type:'POST',
+                data: {_token:_token, termo:termo},
+                success: function(data) {
+                    printMsg(data);
+                },
+                error: function(data) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Algo deu errado!',
+                        text: data.error
+                    })
+                }
+            });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Algo deu errado!',
+                text: 'Campo modelo esta vazio'
+            })
+        }
     });
 
     function printMsg (msg) {

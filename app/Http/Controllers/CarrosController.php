@@ -30,8 +30,13 @@ class CarrosController extends Controller
      */
     public function store(Request $request)
     {
+        $validated = $request->validate([
+            'termo' => 'required'
+        ]);
+
         $termo = $request->termo;
-    // buscar api
+
+    // buscar no site
         $ch = curl_init();
         $url = "https://www.questmultimarcas.com.br/estoque?termo=$termo";
 
@@ -43,7 +48,6 @@ class CarrosController extends Controller
         curl_close($ch);
 
         if ($error === 0) {
-    // filtro lista de carros
 
             // pegar cada carro e coloca em um array, caso nao tenha returna vazio
             $regexCarros = '/<article class=\"card clearfix\" id=\"(.*?)\">(.*?)<\/article>/s';
@@ -52,35 +56,25 @@ class CarrosController extends Controller
 
             // verifica se achou algum carro
             if($carros) {
-
-        // percorrer lista de carros
                 foreach ($carros as $carro) {
+
+                    $carroFiltro = $carro[0];
 
         // filtro modelo e link
                     $regexModelo = '/<h2 class=\"card__title ui-title-inner\"><a href=\"(.*?)\">(.*?)<\/a><\/h2>/s';
-
-                    $carroFiltro = $carro[0];
                     preg_match_all($regexModelo, $carroFiltro, $modelo, PREG_SET_ORDER);
 
         // filtro img
                     $regexImg = '/<img width=\"827\" height=\"593\" src=\"(.*?)\" class=\"img-responsive wp-post-image\"/s';
                     preg_match_all($regexImg, $carroFiltro, $imgResult, PREG_SET_ORDER);
 
-        // filtro preco
-                    /*
-                    $regexPreco = '/<span class=\"card__price-number\">(.*?)<span class=\"after-price-text\"><\/span><\/span>/s';
-                    preg_match_all($regexPreco, $carroFiltro, $preco, PREG_SET_ORDER);
-                    $preco[0][1];
-                    echo "<hr>";
-                    */
-
         // filtro detalhes carro ano cor portas etc ....
                     $regexDetalhes = '/<span class=\"card-list__info\">(.*?)<\/span>/s';
                     preg_match_all($regexDetalhes, $carroFiltro, $detalhes);
 
+                    $link = trim(preg_replace('/\s+/', ' ', $modelo[0][1]));
                     $nomeVeiculo = $modelo[0][2];
                     $img = $imgResult[0][1];
-                    $link = trim(preg_replace('/\s+/', ' ', $modelo[0][1]));
                     $ano = trim(preg_replace('/\s+/', ' ', $detalhes[1][0]));
                     $quilometragem = trim(preg_replace('/\s+/', '', $detalhes[1][1]));
                     $combustivel = trim(preg_replace('/\s+/', '', $detalhes[1][2]));
@@ -88,7 +82,7 @@ class CarrosController extends Controller
                     $cor = trim(preg_replace('/\s+/', '', $detalhes[1][5]));
                     $portasString = trim(preg_replace('/\s+/', '', $detalhes[1][4]));
                     $portas = str_replace('portas', "", $portasString);
-
+/*
                     Carro::create([
                         'link' => $link,
                         'img' => $img,
@@ -101,6 +95,22 @@ class CarrosController extends Controller
                         'cor' => $cor,
                         'portas' => $portas
                     ]);
+*/
+                    Carro::firstOrCreate(
+                        ['link' => $link],
+                        [
+                            'img' => $img,
+                            'id_usuario' => Auth::user()->id,
+                            'nome_veiculo' => $nomeVeiculo,
+                            'ano' => $ano,
+                            'quilometragem' => $quilometragem,
+                            'combustivel' => $combustivel,
+                            'cambio' => $cambio,
+                            'cor' => $cor,
+                            'portas' => $portas
+                        ]
+                    );
+
 
                 }
 
@@ -134,4 +144,12 @@ class CarrosController extends Controller
         }
 
     }
+
+    function filtroPreco($carroFiltro)
+    {
+        $regexPreco = '/<span class=\"card__price-number\">(.*?)<span class=\"after-price-text\"><\/span><\/span>/s';
+        preg_match_all($regexPreco, $carroFiltro, $preco, PREG_SET_ORDER);
+        return $preco[0][1];
+    }
+
 }
