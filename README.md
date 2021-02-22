@@ -31,15 +31,25 @@ DB_DATABASE=uplexis
 
 ## Instalação
 
+instalando dependencias do composer
+
 ```bash
     $ php composer install
 ```
 
+instalando dependencias do npm
+
+```bash
+    $ npm install
+```
+
+## Inicialização
+
+Compiling laravel mix
+
 ```bash
     $ npm run dev
 ```
-
-### Inicializaçao
 
 criar tabelas no banco de dados
 
@@ -54,15 +64,16 @@ criar usuario padrao
     $ php artisan db:seed --class=UserSeeder
 ```
 
-email: admin@admin.com
-nome: admin
-senha: admin
+-   email: admin@admin.com
+-   nome: admin
+-   senha: admin
 
-iniciar servidor
+### Iniciar servidor
 
 ```bash
     $ php artisan serve
 ```
 
 ip e porta padrão
-localhost:8000
+
+-   localhost:8000
